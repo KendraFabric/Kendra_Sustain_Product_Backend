@@ -24,8 +24,11 @@ import pandas as pd
 from io import BytesIO
 from starlette.responses import RedirectResponse
 from getPrediction import getPrediction,getEmission,getEmissionFactor
-
+from toS3 import S3
+import boto3
 from wind import wind
+import boto3
+
 # from realtime.demand import demand
 
 tags_metadata = [
@@ -217,6 +220,19 @@ async def get_emission(
     user: _schemas.User = _fastapi.Depends(_services.get_current_user),
 ):
     return getEmission(name+type)
+
+@app.post("/files/")
+async def create_files(org: str, data: UploadFile = File(...)):
+
+    s3 = boto3.resource(service_name='s3',
+                        aws_access_key_id='AKIA6ONPWXEEKIHPIS6B',
+                        aws_secret_access_key="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")
+
+    s3.meta.client.upload_fileobj(data.file, 'api-ingestion-data', '%s/%s'%(org,data.filename))
+    # print(contents)
+    return {"message", "Successfully Uploaded"}
+
+
 
 
 

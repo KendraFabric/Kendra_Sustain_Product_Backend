@@ -8,7 +8,7 @@ from prediction import prediction
 # import database as _database, models as _models , schemas as _schemas
 
 def getPrediction(name):
-    engine=create_engine('postgresql://postgres:Niks1999@18.157.52.46:5432/postgres')
+    engine=create_engine('postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres')
     connection = engine.connect()
     text='SELECT * FROM public."{0}"'.format(name)
     result = connection.execute(text)
@@ -22,7 +22,7 @@ def getPrediction(name):
     return(li)
 
 def getEmission(name):
-    engine=create_engine('postgresql://postgres:Niks1999@18.157.52.46:5432/postgres')
+    engine=create_engine('postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres')
     connection = engine.connect()
     text='SELECT * FROM public."{0}"'.format(name)
     result = connection.execute(text)
@@ -36,7 +36,7 @@ def getEmission(name):
     return(li)
 
 def getEmissionFactor(year,sector,pollutant):
-    engine=create_engine('postgresql://postgres:Niks1999@18.157.52.46:5432/postgres')
+    engine=create_engine('postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres')
     connection = engine.connect()
     text="SELECT * FROM public.emissionfactor where year={0} and sector='{1}' and pollutant='{2}'".format(year,sector,pollutant)
     result = connection.execute(text)

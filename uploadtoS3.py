@@ -14,7 +14,7 @@ from sqlalchemy.sql import text
 def uploadtoS3(asset_name,df):
     
     type = 'emission'
-    DATABASE_URL = "postgresql://postgres:Niks1999@18.157.52.46:5432/postgres"
+    DATABASE_URL = "postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres"
 
     database = databases.Database(DATABASE_URL)
 
