@@ -49,6 +49,76 @@ def getEmissionFactor(year,sector,pollutant):
 
     return(li)
 
+def getSector():
+    engine=create_engine('postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres', pool_pre_ping=True)
+    connection = engine.connect()
+    text = "select distinct(sector) from public.emission_factors order by sector;"
+    result = connection.execute(text)
+    data = result.all()
+    li = []
+    for c in data:
+        li.append(c[0])
+    return (li)
+
+def getRegion():
+    engine=create_engine('postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres', pool_pre_ping=True)
+    connection = engine.connect()
+    text = "select distinct(region) from public.emission_factors order by region;"
+    result = connection.execute(text)
+    data = result.all()
+    li = []
+    for c in data:
+        li.append(c[0])
+    return (li)
+
+def getScope():
+    engine=create_engine('postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres', pool_pre_ping=True)
+    connection = engine.connect()
+    text = "select distinct(scope) from public.emission_factors order by scope;"
+    result = connection.execute(text)
+    data = result.all()
+    li = []
+    for c in data:
+        li.append(c[0])
+    return (li)
+
+def getyearReleased():
+    engine=create_engine('postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres', pool_pre_ping=True)
+    connection = engine.connect()
+    text = "select distinct(year_released) from public.emission_factors order by year_released;"
+    result = connection.execute(text)
+    data = result.all()
+    li = []
+    for c in data:
+        li.append(c[0])
+    return (li)
+
+def getSource():
+    engine=create_engine('postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres', pool_pre_ping=True)
+    connection = engine.connect()
+    text = "select distinct(source) from public.emission_factors order by source;"
+    result = connection.execute(text)
+    data = result.all()
+    li = []
+    for c in data:
+        li.append(c[0])
+    return (li)
+
+def getEmissionFactors(sector,year_released,region,scope):
+    engine=create_engine('postgresql://postgres:Mypassword135*@3.64.136.140:5432/postgres', pool_pre_ping=True)
+    connection = engine.connect()
+    text = "SELECT * FROM public.emission_factors where sector='{0}' and year_released='{1}' and region='{2}' and scope='{3}'".format(sector,year_released,region,scope)
+    # text = "select distinct(sector) from public.emission_factors order by sector;"
+    # print(text)
+    result = connection.execute(text)
+    data = result.all()
+    li = []
+    for c in data:
+        li.append({"sector": c[0], "category": c[1], "name": c[2], "activity_unit": c[3], "emission_factor": {"kgCO2e-AR4": c[4],"kgCO2e-AR5": c[5]},"scope": c[10], "source": c[11], "year_released": c[12], "year_valid": c[13], "year_calculated_from": c[14], "region": c[15]})
+    
+    return(li)
+
+
     
 
     

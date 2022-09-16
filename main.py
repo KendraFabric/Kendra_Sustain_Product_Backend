@@ -1,5 +1,5 @@
 import fastapi as _fastapi
-from typing import List
+from typing import List, Optional, Union
 from fastapi.datastructures import UploadFile
 import fastapi.security as _security
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,7 +23,7 @@ import json
 import pandas as pd
 from io import BytesIO
 from starlette.responses import RedirectResponse
-from getPrediction import getPrediction,getEmission,getEmissionFactor
+from getPrediction import getPrediction,getEmission,getEmissionFactor,getEmissionFactors,getSector, getSource,getRegion,getyearReleased,getScope
 from toS3 import S3
 import boto3
 from wind import wind
@@ -44,6 +44,11 @@ tags_metadata = [
     {
         "name": "Asset Register",
         "description": "Different For Different User",
+        
+    },
+    {
+        "name": "Emission Factors",
+        "description": "OpenAPI",
         
     },
 ]
@@ -205,6 +210,7 @@ async def get_factor(
 ):
     return getEmissionFactor(year,sector,pollutant)
 
+
 @app.post("/api/getPrediction")
 async def get_prediction(
     name: str,
@@ -233,8 +239,35 @@ async def create_files(org: str, data: UploadFile = File(...)):
     return {"message", "Successfully Uploaded"}
 
 
+# ---------------------------------------------------------------------------------------------------------
 
+@app.get("/api/sector", tags=["Emission Factors"])
+async def get_sector():
+    return getSector()
 
+@app.get("/api/source", tags=["Emission Factors"])
+async def get_source():
+    return getSource()
 
+@app.get("/api/scope", tags=["Emission Factors"])
+async def get_scope():
+    return getScope()
 
+@app.get("/api/year_released", tags=["Emission Factors"])
+async def get_year():
+    return getyearReleased()
+
+@app.get("/api/region", tags=["Emission Factors"])
+async def get_region():
+    return getRegion()
+
+@app.get("/api/emissionfactors" , tags=["Emission Factors"])
+async def get_factors(
+    sector: str,
+    year_released: str,
+    region: str,
+    scope: str
+    
+):
+    return getEmissionFactors(sector,year_released,region,scope)
            
